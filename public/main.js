@@ -42,6 +42,15 @@ function getTodoList(callback) {
     createRequest.send();
 }
 
+var getButton = function(text,id){
+  console.log("id:\t" + id);
+  var button = document.createElement("BUTTON");
+  var buttonText = document.createTextNode(text);
+  button.appendChild(buttonText);
+  button.setAttribute("id",id);
+  return button;
+}
+
 function reloadTodoList() {
     while (todoList.firstChild) {
         todoList.removeChild(todoList.firstChild);
@@ -49,10 +58,15 @@ function reloadTodoList() {
     todoListPlaceholder.style.display = "block";
     getTodoList(function(todos) {
         todoListPlaceholder.style.display = "none";
+        var idCount = 0;
         todos.forEach(function(todo) {
             var listItem = document.createElement("li");
+            listItem.setAttribute("id",idCount);
             listItem.textContent = todo.title;
+            // delete button creation
+            listItem.appendChild(getButton("DELETE",idCount));
             todoList.appendChild(listItem);
+            idCount++;
         });
     });
 }

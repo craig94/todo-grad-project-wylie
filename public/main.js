@@ -45,7 +45,6 @@ function getTodoList(callback) {
 function deleteTodoItem() {
     var createRequest = new XMLHttpRequest();
     createRequest.open("DELETE", "/api/todo/" + this.id);
-    //createRequest.setRequestHeader("Content-type","application/json");
     createRequest.onload = function() {
         if (this.status === 200) {
             reloadTodoList();

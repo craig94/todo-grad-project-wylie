@@ -79,6 +79,30 @@ module.exports.addTodo = function(text) {
     driver.findElement(webdriver.By.id("submit-todo")).click();
 };
 
+module.exports.deleteItem = function(text) {
+    driver.findElement(webdriver.By.id(text)).click();
+};
+
+module.exports.checkElementExists = function(id) {
+    /*var button;
+    try {
+        button = driver.findElement(webdriver.By.id(id));
+        return true;
+    } catch (err) {
+        return false;
+    }*/
+    return driver.findElement(webdriver.By.id(id)).then(function (element) {
+        //console.log("NO ERROR");
+        return true;
+    }, function (err) {
+        //console.log(err);
+        if (err.name === "NoSuchElementError") {
+            return false;
+        }
+    });
+    //console.log(driver.findElement(webdriver.By.id("jhsfjkdjksdjk")));
+};
+
 module.exports.setupErrorRoute = function(action, route) {
     if (action === "get") {
         router.get(route, function(req, res) {
@@ -87,6 +111,11 @@ module.exports.setupErrorRoute = function(action, route) {
     }
     if (action === "post") {
         router.post(route, function(req, res) {
+            res.sendStatus(500);
+        });
+    }
+    if (action === "delete") {
+        router.delete(route, function(req, res) {
             res.sendStatus(500);
         });
     }

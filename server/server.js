@@ -47,7 +47,7 @@ module.exports = function(port, middleware, callback) {
     app.put("/api/todo/:id", function(req, res) {
         var id = req.params.id;
         var todo = getTodo(id);
-        if (todo){
+        if (todo) {
             todo.title = req.body.title;
             res.sendStatus(200);
         } else {

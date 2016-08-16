@@ -5,6 +5,11 @@ body {
     margin: 0;
 }
 
+header {
+    background-color: darkcyan;
+    padding: 0.5em 1em;
+}
+
 button {
 	-moz-box-shadow: 3px 4px 0px 0px #1564ad;
 	-webkit-box-shadow: 3px 4px 0px 0px #1564ad;
@@ -46,11 +51,6 @@ button:active {
 	position:relative;
 	top:1px;
   }
-}
-
-header {
-    background-color: darkcyan;
-    padding: 0.5em 1em;
 }
 
 section,

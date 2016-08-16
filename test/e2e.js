@@ -65,5 +65,48 @@ testing.describe("end to end", function() {
             });
         });
     });
+    testing.describe("check delete functionality", function() {
+        testing.it("deletes the todo item from the list", function() {
+            helpers.navigateToSite();
+            helpers.addTodo("New todo item");
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 1);
+            });
+            helpers.deleteItem("0");
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 0);
+            });
+        });
+        testing.it("deletes the correct item", function() {
+            helpers.navigateToSite();
+            helpers.addTodo("New todo item");// id 0
+            helpers.addTodo("Another todo item");// id 1
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 2);
+            });
+            helpers.deleteItem("1");
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 1);
+            });
+            helpers.checkElementExists("0").then(function(element) {
+                assert.isTrue(element);
+            });
+            helpers.deleteItem("0");
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 0);
+            });
+        });
+        testing.it("cannot delete items that dont exist", function() {
+            helpers.setupErrorRoute("delete", "/api/todo/0");
+            helpers.navigateToSite();
+            helpers.addTodo("New todo item");// id 0
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 1);
+            });
+            helpers.deleteItem("0");
+            helpers.getErrorText().then(function(text) {
+                assert.equal(text, "Failed to delete item. Server returned 500 - Internal Server Error");
+            });
+        });
+    });
 });
-

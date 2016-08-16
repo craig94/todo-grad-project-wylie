@@ -55,14 +55,14 @@ function deleteTodoItem() {
     createRequest.send();
 }
 
-var getButton = function(text,id){
-  var button = document.createElement("BUTTON");
-  var buttonText = document.createTextNode(text);
-  button.appendChild(buttonText);
-  button.setAttribute("id",id);
-  button.onclick = deleteTodoItem;
-  return button;
-}
+var getButton = function(text, id) {
+    var button = document.createElement("BUTTON");
+    var buttonText = document.createTextNode(text);
+    button.appendChild(buttonText);
+    button.setAttribute("id", id);
+    button.onclick = deleteTodoItem;
+    return button;
+};
 
 function reloadTodoList() {
     while (todoList.firstChild) {
@@ -73,10 +73,8 @@ function reloadTodoList() {
         todoListPlaceholder.style.display = "none";
         todos.forEach(function(todo) {
             var listItem = document.createElement("li");
-            listItem.setAttribute("id",todo.id);
             listItem.textContent = todo.title;
-            // delete button creation
-            listItem.appendChild(getButton("DELETE",todo.id));
+            listItem.appendChild(getButton("DELETE", todo.id));
             todoList.appendChild(listItem);
         });
     });

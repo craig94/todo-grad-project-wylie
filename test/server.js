@@ -152,4 +152,46 @@ describe("server", function() {
             });
         });
     });
+    describe("complete a todo", function() {
+        it("responds with status code 404 if there is no such item", function(done) {
+            request.put(todoListUrl + "/0", function(error, response) {
+                assert.equal(response.statusCode, 404);
+                done();
+            });
+        });
+        it("responds with status code 200 if it exists", function(done) {
+            request.post({
+                url: todoListUrl,
+                json: {
+                    title: "Item"
+                }
+            }, function() {
+                request.put(todoListUrl + "/0", function(error, response) {
+                    assert.equal(response.statusCode, 200);
+                    done();
+                });
+            });
+        });
+        it("successfully completes the todo and does not update invalid attributes", function(done) {
+            request.post({
+                url: todoListUrl,
+                json: {
+                    title: "Item"
+                }
+            }, function() {
+                request.put({
+                    url: todoListUrl + "/0",
+                    json: {
+                        isComplete: true,
+                        randomAttribute: "lol"
+                    }
+                }, function() {
+                    request.get(todoListUrl, function(error, response, body) {
+                        assert.deepEqual(JSON.parse(body), [{title : "Item", id : "0", isComplete: true}]);
+                        done();
+                    });
+                });
+            });
+        });
+    });
 });

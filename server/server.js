@@ -48,7 +48,7 @@ module.exports = function(port, middleware, callback) {
     app.put("/api/todo/:id", function(req, res) {
         var id = req.params.id;
         var todo = getTodo(id);
-        var safeAttributes = ["isComplete","title"];
+        var safeAttributes = ["isComplete", "title"];
         if (todo) {
             for (var i in req.body) {
                 if (safeAttributes.indexOf(i) !== -1) {

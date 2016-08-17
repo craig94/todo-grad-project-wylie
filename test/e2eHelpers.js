@@ -95,6 +95,14 @@ module.exports.getElementText = function(text) {
     return driver.findElement(webdriver.By.id(text)).getText();
 };
 
+module.exports.clickDeleteComplete = function() {
+    driver.findElement(webdriver.By.id("dc")).click();
+};
+
+module.exports.pause = function(duration) {
+    return driver.sleep(duration);
+};
+
 module.exports.checkElementExists = function(id) {
     return driver.findElement(webdriver.By.id(id)).then(function (element) {
         return true;

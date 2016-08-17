@@ -194,4 +194,102 @@ describe("server", function() {
             });
         });
     });
+    describe("delete all completed todos", function() {
+        it("responds with status code 200 if no items in list", function(done) {
+            request.post(todoListUrl + "/delete/", function(error, response) {
+                assert.equal(response.statusCode, 200);
+                done();
+            });
+        });
+        it("delete request with no complete items", function(done) {
+            request.post({
+                url: todoListUrl,
+                json: {
+                    title: "Item"
+                }
+            }, function() {
+                request.post(todoListUrl + "/delete/", function(error, response) {
+                    assert.equal(response.statusCode, 200);
+                    done();
+                });
+            });
+        });
+        it("delete 1 completed item, leave the other incomplete item", function(done) {
+            request.post({
+                url: todoListUrl,
+                json: {
+                    title: "Item 1"
+                }
+            }, function() {
+                request.post({
+                    url: todoListUrl,
+                    json: {
+                        title: "Item 2"
+                    }
+                }, function () {
+                    request.put({
+                        url: todoListUrl + "/1",
+                        json: {
+                            isComplete: true,
+                        }
+                    }, function() {
+                        request.post({
+                            url: todoListUrl + "/delete/",
+                        }, function () {
+                            request.get(todoListUrl, function(error, response, body) {
+                                assert.deepEqual(JSON.parse(body), [{title : "Item 1", id : "0", isComplete: false}]);
+                                done();
+                            });
+                        });
+                    });
+                });
+            });
+        });
+        it("deletes multiple completed items", function(done) {
+            request.post({
+                url: todoListUrl,
+                json: {
+                    title: "Item 1"
+                }
+            }, function() {
+                request.post({
+                    url: todoListUrl,
+                    json: {
+                        title: "Item 2"
+                    }
+                }, function () {
+                    request.post({
+                        url: todoListUrl,
+                        json: {
+                            title: "Item 3"
+                        }
+                    }, function () {
+                        request.put({
+                            url: todoListUrl + "/1",
+                            json: {
+                                isComplete: true,
+                            }
+                        }, function() {
+                            request.put({
+                                url: todoListUrl + "/0",
+                                json: {
+                                    isComplete: true,
+                                }
+                            }, function () {
+                                request.post({
+                                    url: todoListUrl + "/delete/",
+                                }, function () {
+                                    request.get(todoListUrl, function(error, response, body) {
+                                        assert.deepEqual(JSON.parse(body),
+                                        [{title : "Item 3", id : "2", isComplete: false}]);
+                                        done();
+                                    });
+                                });
+                            });
+                        });
+                    });
+                });
+            });
+        });
+    });
 });

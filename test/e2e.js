@@ -170,8 +170,8 @@ testing.describe("end to end", function() {
         testing.it("complete count correct with 3 items, 1 completed, then deleted", function() {
             helpers.navigateToSite();
             helpers.addTodo("New todo item");// id 0
-            helpers.addTodo("Another todo item");// id 0
-            helpers.addTodo("Another todo item");// id 0
+            helpers.addTodo("Another todo item");// id 1
+            helpers.addTodo("Another todo item");// id 2
             helpers.getTodoList().then(function(elements) {
                 assert.equal(elements.length, 3);
             });
@@ -189,6 +189,58 @@ testing.describe("end to end", function() {
             helpers.getElementText("count-label").then(function(text) {
                 var count = Number(text.split(" ")[0]);
                 assert.equal(count, 0);
+            });
+        });
+    });
+    testing.describe("check delete completed functionality", function() {
+        testing.it("does not delete incomplete items", function() {
+            helpers.navigateToSite();
+            helpers.addTodo("New todo item 1");// id 0
+            helpers.addTodo("New todo item 2");// id 1
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 2);
+            });
+            helpers.completeItem("1");
+            helpers.pause(500).then(function () {
+                helpers.getTodoList().then(function(elements) {
+                    assert.equal(elements.length, 2);
+                });
+                helpers.clickDeleteComplete();
+                helpers.getTodoList().then(function(elements) {
+                    assert.equal(elements.length, 1);
+                });
+                helpers.pause(500).then(function () {
+                    helpers.checkElementExists("delete0").then(function (val) {
+                        assert.isTrue(val);
+                    });
+                });
+            });
+        });
+        testing.it("deletes multiple items", function() {
+            helpers.navigateToSite();
+            helpers.addTodo("New todo item 1");// id 0
+            helpers.addTodo("New todo item 2");// id 1
+            helpers.addTodo("New todo item 3");// id 2
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 3);
+            });
+            helpers.pause(500).then(function () {
+                helpers.completeItem("0");
+                helpers.pause(500).then(function () {
+                    helpers.completeItem("1");
+                    helpers.getTodoList().then(function(elements) {
+                        assert.equal(elements.length, 3);
+                    });
+                    helpers.pause(500).then(function () {
+                        helpers.clickDeleteComplete();
+                        helpers.getTodoList().then(function(elements) {
+                            assert.equal(elements.length, 1);
+                        });
+                        helpers.checkElementExists("complete2").then(function (val) {
+                            assert.isTrue(val);
+                        });
+                    });
+                });
             });
         });
     });

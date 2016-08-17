@@ -91,7 +91,8 @@ function deleteCompleted() {
         if (this.status === 200) {
             reloadTodoList();
         } else {
-            error.textContent = "Failed to delete completed items. Server returned " + this.status + " - " + this.responseText;
+            error.textContent = "Failed to delete completed items. Server returned " +
+            this.status + " - " + this.responseText;
         }
     };
 }

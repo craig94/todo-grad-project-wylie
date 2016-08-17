@@ -129,4 +129,67 @@ testing.describe("end to end", function() {
             });
         });
     });
+    testing.describe("check complete count functionality", function() {
+        testing.it("complete count correct with 1 item", function() {
+            helpers.navigateToSite();
+            helpers.addTodo("New todo item");// id 0
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 1);
+            });
+            helpers.getElementText("count-label").then(function(text) {
+                var count = Number(text.split(" ")[0]);
+                assert.equal(count, 1);
+            });
+        });
+        testing.it("complete count correct with 2 items", function() {
+            helpers.navigateToSite();
+            helpers.addTodo("New todo item");// id 0
+            helpers.addTodo("Another todo item");// id 0
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 2);
+            });
+            helpers.getElementText("count-label").then(function(text) {
+                var count = Number(text.split(" ")[0]);
+                assert.equal(count, 2);
+            });
+        });
+        testing.it("complete count correct with 3 items, 1 completed", function() {
+            helpers.navigateToSite();
+            helpers.addTodo("New todo item");// id 0
+            helpers.addTodo("Another todo item");// id 0
+            helpers.addTodo("Another todo item");// id 0
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 3);
+            });
+            helpers.completeItem("1");
+            helpers.getElementText("count-label").then(function(text) {
+                var count = Number(text.split(" ")[0]);
+                assert.equal(count, 2);
+            });
+        });
+        testing.it("complete count correct with 3 items, 1 completed, then deleted", function() {
+            helpers.navigateToSite();
+            helpers.addTodo("New todo item");// id 0
+            helpers.addTodo("Another todo item");// id 0
+            helpers.addTodo("Another todo item");// id 0
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 3);
+            });
+            helpers.completeItem("1");
+            helpers.getElementText("count-label").then(function(text) {
+                var count = Number(text.split(" ")[0]);
+                assert.equal(count, 2);
+            });
+            helpers.deleteItem("0");
+            helpers.getElementText("count-label").then(function(text) {
+                var count = Number(text.split(" ")[0]);
+                assert.equal(count, 1);
+            });
+            helpers.deleteItem("2");
+            helpers.getElementText("count-label").then(function(text) {
+                var count = Number(text.split(" ")[0]);
+                assert.equal(count, 0);
+            });
+        });
+    });
 });

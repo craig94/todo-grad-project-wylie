@@ -61,6 +61,7 @@ var getButton = function(text, id, actualID, func) {
     var buttonText = document.createTextNode(text);
     button.appendChild(buttonText);
     button.setAttribute("id", id);
+    button.setAttribute("class", "button");
     button.setAttribute("actualID", actualID);
     button.onclick = func;
     return button;

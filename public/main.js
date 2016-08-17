@@ -82,6 +82,20 @@ function completeFunc() {
     };
 }
 
+function deleteCompleted() {
+    var createRequest = new XMLHttpRequest();
+    createRequest.open("POST", "/api/todo/delete/");
+    createRequest.setRequestHeader("Content-type", "application/json");
+    createRequest.send();
+    createRequest.onload = function() {
+        if (this.status === 200) {
+            reloadTodoList();
+        } else {
+            error.textContent = "Failed to delete completed items. Server returned " + this.status + " - " + this.responseText;
+        }
+    };
+}
+
 function updateCountLabel(count) {
     countLabel.innerHTML = count + " items remaining";
 }
@@ -102,12 +116,16 @@ function reloadTodoList() {
             if (todo.isComplete) {
                 listItem.style.color = "red";
             } else {
-                count += 1;
+                count++;
             }
             listItem.appendChild(completeButton);
             todoList.appendChild(listItem);
         });
         updateCountLabel(count);
+        if (count !== todos.length) {
+            var deleteCompletedButton = getButton("DELETE COMPLETED", "dc", "dc", deleteCompleted);
+            todoList.appendChild(deleteCompletedButton);
+        }
     });
 }
 

@@ -14,8 +14,14 @@ module.exports = function(port, middleware, callback) {
     var latestId = 0;
     var todos = [];
 
+    // delete completed todos
+    app.post("/api/todo/delete/", function(req, res) {
+        deleteCompleted();
+        res.sendStatus(200);
+    });
+
     // Create
-    app.post("/api/todo", function(req, res) {
+    app.post("/api/todo/", function(req, res) {
         var todo = req.body;
         todo.id = latestId.toString();
         latestId++;
@@ -63,6 +69,12 @@ module.exports = function(port, middleware, callback) {
 
     function getTodo(id) {
         return _.find(todos, function(todo) { return todo.id === id;});
+    }
+
+    function deleteCompleted() {
+        for (var i=todos.length-1;i>=0;i--){
+            if (todos[i].isComplete) todos.splice(i,1);
+        }
     }
 
     var server = app.listen(port, callback);

@@ -91,6 +91,10 @@ module.exports.getElementColor = function(element) {
     return element.getCssValue("color");
 };
 
+module.exports.getElementText = function(text) {
+    return driver.findElement(webdriver.By.id(text)).getText();
+};
+
 module.exports.checkElementExists = function(id) {
     return driver.findElement(webdriver.By.id(id)).then(function (element) {
         return true;

@@ -40,7 +40,6 @@ describe("server", function() {
                 url: todoListUrl,
                 json: {
                     title: "This is a TODO item",
-                    done: false
                 }
             }, function(error, response) {
                 assert.equal(response.statusCode, 201);
@@ -52,7 +51,6 @@ describe("server", function() {
                 url: todoListUrl,
                 json: {
                     title: "This is a TODO item",
-                    done: false
                 }
             }, function(error, response) {
                 assert.equal(response.headers.location, "/api/todo/0");
@@ -64,13 +62,12 @@ describe("server", function() {
                 url: todoListUrl,
                 json: {
                     title: "This is a TODO item",
-                    done: false
                 }
             }, function() {
                 request.get(todoListUrl, function(error, response, body) {
                     assert.deepEqual(JSON.parse(body), [{
                         title: "This is a TODO item",
-                        done: false,
+                        isComplete: false,
                         id: "0"
                     }]);
                     done();
@@ -90,7 +87,6 @@ describe("server", function() {
                 url: todoListUrl,
                 json: {
                     title: "This is a TODO item",
-                    done: false
                 }
             }, function() {
                 request.del(todoListUrl + "/0", function(error, response) {
@@ -104,7 +100,6 @@ describe("server", function() {
                 url: todoListUrl,
                 json: {
                     title: "This is a TODO item",
-                    done: false
                 }
             }, function() {
                 request.del(todoListUrl + "/0", function() {
@@ -128,7 +123,6 @@ describe("server", function() {
                 url: todoListUrl,
                 json: {
                     title: "This is a TODO item",
-                    done: false
                 }
             }, function() {
                 request.put(todoListUrl + "/0", function(error, response) {
@@ -151,7 +145,49 @@ describe("server", function() {
                     }
                 }, function() {
                     request.get(todoListUrl, function(error, response, body) {
-                        assert.deepEqual(JSON.parse(body), [{title : "lol", id : "0"}]);
+                        assert.deepEqual(JSON.parse(body), [{title : "lol", id : "0", isComplete: false}]);
+                        done();
+                    });
+                });
+            });
+        });
+    });
+    describe("complete a todo", function() {
+        it("responds with status code 404 if there is no such item", function(done) {
+            request.put(todoListUrl + "/0", function(error, response) {
+                assert.equal(response.statusCode, 404);
+                done();
+            });
+        });
+        it("responds with status code 200 if it exists", function(done) {
+            request.post({
+                url: todoListUrl,
+                json: {
+                    title: "Item"
+                }
+            }, function() {
+                request.put(todoListUrl + "/0", function(error, response) {
+                    assert.equal(response.statusCode, 200);
+                    done();
+                });
+            });
+        });
+        it("successfully completes the todo and does not update invalid attributes", function(done) {
+            request.post({
+                url: todoListUrl,
+                json: {
+                    title: "Item"
+                }
+            }, function() {
+                request.put({
+                    url: todoListUrl + "/0",
+                    json: {
+                        isComplete: true,
+                        randomAttribute: "lol"
+                    }
+                }, function() {
+                    request.get(todoListUrl, function(error, response, body) {
+                        assert.deepEqual(JSON.parse(body), [{title : "Item", id : "0", isComplete: true}]);
                         done();
                     });
                 });

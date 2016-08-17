@@ -88,7 +88,7 @@ testing.describe("end to end", function() {
             helpers.getTodoList().then(function(elements) {
                 assert.equal(elements.length, 1);
             });
-            helpers.checkElementExists("0").then(function(element) {
+            helpers.checkElementExists("delete0").then(function(element) {
                 assert.isTrue(element);
             });
             helpers.deleteItem("0");
@@ -106,6 +106,26 @@ testing.describe("end to end", function() {
             helpers.deleteItem("0");
             helpers.getErrorText().then(function(text) {
                 assert.equal(text, "Failed to delete item. Server returned 500 - Internal Server Error");
+            });
+        });
+    });
+    testing.describe("check complete functionality", function() {
+        testing.it("completes the item and changes color", function() {
+            helpers.navigateToSite();
+            helpers.addTodo("New todo item");
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 1);
+                helpers.getElementColor(elements[0]).then(function (oldColor) {
+                    helpers.completeItem("0");
+                    helpers.getTodoList().then(function(elems) {
+                        assert.equal(elems.length, 1);
+                    });
+                    helpers.getTodoList().then(function(els) {
+                        helpers.getElementColor(els[0]).then(function (newColor) {
+                            assert.notEqual(oldColor, newColor);
+                        });
+                    });
+                });
             });
         });
     });

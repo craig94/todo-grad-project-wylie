@@ -73,7 +73,9 @@ module.exports = function(port, middleware, callback) {
 
     function deleteCompleted() {
         for (var i=todos.length-1;i>=0;i--){
-            if (todos[i].isComplete) todos.splice(i,1);
+            if (todos[i].isComplete) {
+                todos.splice(i,1);
+            }
         }
     }
 

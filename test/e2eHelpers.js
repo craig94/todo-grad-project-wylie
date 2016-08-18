@@ -99,6 +99,10 @@ module.exports.clickDeleteComplete = function() {
     driver.findElement(webdriver.By.id("dc")).click();
 };
 
+module.exports.clickButton = function(id) {
+    driver.findElement(webdriver.By.id(id)).click();
+};
+
 module.exports.pause = function(duration) {
     return driver.sleep(duration);
 };

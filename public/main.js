@@ -6,7 +6,9 @@ var error = document.getElementById("error");
 var countLabel = document.getElementById("count-label");
 var filterList = document.getElementById("filter-label");
 var filterFlag = "";
-var all, complete, incomplete;
+var all;
+var complete;
+var incomplete;
 
 form.onsubmit = function(event) {
     var title = todoTitle.value;

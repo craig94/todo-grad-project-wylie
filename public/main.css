@@ -70,3 +70,11 @@ h1 {
 #filter-label {
     margin: 30px;
 }
+
+#filter-text {
+    color: darkcyan;
+    margin-top: 20pt;
+    background-color: lightblue;
+    font-weight: bold;
+    font-size: 130%;
+}

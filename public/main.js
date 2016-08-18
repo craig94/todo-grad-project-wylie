@@ -149,6 +149,7 @@ function getListItem(todo) {
 
 function appendFilterButtons() {
     if (filterList.childNodes.length === 0) {
+        document.getElementById("filter-text").innerHTML = "Filter By:";
         var all = getButton("ALL", "all", "all", allButton);
         var complete = getButton("COMPLETE", "complete", "complete", completeButton);
         var incomplete = getButton("INCOMPLETE", "incomplete", "incomplete", incompleteButton);
@@ -160,6 +161,7 @@ function appendFilterButtons() {
 }
 
 function removeFilterButtons() {
+    document.getElementById("filter-text").innerHTML = "";
     while (filterList.firstChild) {
         filterList.removeChild(filterList.firstChild);
     }

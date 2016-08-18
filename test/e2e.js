@@ -244,7 +244,7 @@ testing.describe("end to end", function() {
             });
         });
     });
-    testing.describe.only("check filter button functionality", function() {
+    testing.describe("check filter button functionality", function() {
         testing.it("does not show buttons if no items in list", function() {
             helpers.navigateToSite();
             helpers.checkElementExists("complete").then(function(val) {
@@ -363,14 +363,18 @@ testing.describe("end to end", function() {
             helpers.checkElementExists("incomplete").then(function(val) {
                 assert.equal(val, true);
             });
-            helpers.clickButton("complete2");
-            helpers.clickButton("complete1");
-            helpers.getTodoList().then(function(elements) {
-                assert.equal(elements.length, 4);
-            });
-            helpers.clickButton("incomplete");
-            helpers.getTodoList().then(function(elements) {
-                assert.equal(elements.length, 2);
+            helpers.pause(500).then(function() {
+                helpers.clickButton("complete2");
+                helpers.pause(500).then(function() {
+                    helpers.clickButton("complete1");
+                    helpers.getTodoList().then(function(elements) {
+                        assert.equal(elements.length, 4);
+                    });
+                    helpers.clickButton("incomplete");
+                    helpers.getTodoList().then(function(elements) {
+                        assert.equal(elements.length, 2);
+                    });
+                });
             });
         });
         testing.it("correctly filters multiple incomplete items on button press", function() {

@@ -25,13 +25,14 @@ function createTodo(title, callback) {
         headers: {"Content-type": "application/json"},
         body: JSON.stringify({
             title: title
-        }) })
-        .then(function(response) {
-            if (response.status === 201){
-                callback();
-            } else {
-                error.textContent = "Failed to create item. Server returned " + response.status + " - " + response.statusText;
-            }
+        })})
+    .then(function(response) {
+        if (response.status === 201) {
+            callback();
+        } else {
+            error.textContent = "Failed to create item. Server returned " +
+            response.status + " - " + response.statusText;
+        }
     }).catch(function(error) {
         console.log("request failed", error);
     });
@@ -39,13 +40,14 @@ function createTodo(title, callback) {
 
 function getTodoList(callback) {
     fetch("/api/todo/")
-        .then(function(response) {
-        if (response.status === 200){
+    .then(function(response) {
+        if (response.status === 200) {
             response.json().then(function(data) {
-                callback(data);
-            });
+            callback(data);
+        });
         } else {
-            error.textContent = "Failed to get list. Server returned " + response.status + " - " + response.statusText;
+            error.textContent = "Failed to get list. Server returned " +
+            response.status + " - " + response.statusText;
         }
     }).catch(function(error) {
         console.log("request failed", error);
@@ -55,12 +57,13 @@ function getTodoList(callback) {
 function deleteTodoItem() {
     fetch("/api/todo/" + this.getAttribute("actualID"), {
         method: "delete"})
-        .then(function(response) {
-            if (response.status === 200){
-                reloadTodoList();
-            } else {
-                error.textContent = "Failed to create item. Server returned " + response.status + " - " + response.statusText;
-            }
+    .then(function(response) {
+        if (response.status === 200) {
+            reloadTodoList();
+        } else {
+            error.textContent = "Failed to delete item. Server returned " +
+            response.status + " - " + response.statusText;
+        }
     }).catch(function(error) {
         console.log("request failed", error);
     });
@@ -72,13 +75,14 @@ function completeFunc() {
         headers: {"Content-type": "application/json"},
         body: JSON.stringify({
             isComplete: true
-        }) })
-        .then(function(response) {
-            if (response.status === 200){
-                reloadTodoList();
-            } else {
-                error.textContent = "Failed to create item. Server returned " + response.status + " - " + response.statusText;
-            }
+        })})
+    .then(function(response) {
+        if (response.status === 200) {
+            reloadTodoList();
+        } else {
+            error.textContent = "Failed to create item. Server returned " +
+            response.status + " - " + response.statusText;
+        }
     }).catch(function(error) {
         console.log("Request failed", error);
     });
@@ -88,12 +92,13 @@ function deleteCompleted() {
     fetch("/api/todo/delete/", {
         method: "post",
         headers: {"Content-type": "application/json"}})
-        .then(function(response) {
-            if (response.status === 200){
-                reloadTodoList();
-            } else {
-                error.textContent = "Failed to create item. Server returned " + response.status + " - " + response.statusText;
-            }
+    .then(function(response) {
+        if (response.status === 200) {
+            reloadTodoList();
+        } else {
+            error.textContent = "Failed to delete item. Server returned " +
+            response.status + " - " + response.statusText;
+        }
     }).catch(function(error) {
         console.log("Request failed", error);
     });

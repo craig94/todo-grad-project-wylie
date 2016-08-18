@@ -9,6 +9,7 @@ var filterFlag = "";
 var all;
 var complete;
 var incomplete;
+var lastUpdateID = 0;
 
 form.onsubmit = function(event) {
     var title = todoTitle.value;
@@ -28,6 +29,7 @@ function createTodo(title, callback) {
         })})
     .then(function(response) {
         if (response.status === 201) {
+            lastUpdateID++;
             callback();
         } else {
             error.textContent = "Failed to create item. Server returned " +
@@ -59,6 +61,7 @@ function deleteTodoItem() {
         method: "delete"})
     .then(function(response) {
         if (response.status === 200) {
+            lastUpdateID++;
             reloadTodoList();
         } else {
             error.textContent = "Failed to delete item. Server returned " +
@@ -78,6 +81,7 @@ function completeFunc() {
         })})
     .then(function(response) {
         if (response.status === 200) {
+            lastUpdateID++;
             reloadTodoList();
         } else {
             error.textContent = "Failed to create item. Server returned " +
@@ -94,6 +98,7 @@ function deleteCompleted() {
         headers: {"Content-type": "application/json"}})
     .then(function(response) {
         if (response.status === 200) {
+            lastUpdateID++;
             reloadTodoList();
         } else {
             error.textContent = "Failed to delete item. Server returned " +
@@ -128,6 +133,7 @@ function reloadTodoList() {
         var completeCount = 0;
         var incompleteCount = 0;
         todoListPlaceholder.style.display = "none";
+
         todos.forEach(function(todo) {
             if (checkFilter(todo)) {
                 var listItem = getListItem(todo);
@@ -210,4 +216,24 @@ function incompleteButton() {
     document.getElementById("filter-text").innerHTML = "Filter By:\tINCOMPLETE";
 }
 
+function checkForUpdates() {
+    fetch("/api/todo/update/")
+    .then(function(response) {
+        if (response.status === 200) {
+            response.json().then(function(data) {
+                if (Number(data) !== lastUpdateID) {
+                    reloadTodoList();
+                    lastUpdateID = Number(data);
+                }
+            });
+        } else {
+            error.textContent = "Failed to get list. Server returned " +
+            response.status + " - " + response.statusText;
+        }
+    }).catch(function(error) {
+        console.log("request failed", error);
+    });
+}
+
 reloadTodoList();
+setInterval(checkForUpdates, 5000);

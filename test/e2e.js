@@ -244,4 +244,169 @@ testing.describe("end to end", function() {
             });
         });
     });
+    testing.describe("check filter button functionality", function() {
+        testing.it("does not show buttons if no items in list", function() {
+            helpers.navigateToSite();
+            helpers.checkElementExists("complete").then(function(val) {
+                assert.equal(val, false);
+            });
+        });
+        testing.it("shows buttons if items are in list", function() {
+            helpers.navigateToSite();
+            helpers.addTodo("Item");
+            helpers.pause(500).then(function() {
+                helpers.checkElementExists("all").then(function(val) {
+                    assert.equal(val, true);
+                });
+                helpers.checkElementExists("complete").then(function(val) {
+                    assert.equal(val, true);
+                });
+                helpers.checkElementExists("incomplete").then(function(val) {
+                    assert.equal(val, true);
+                });
+            });
+        });
+        testing.it("default filter is all", function() {
+            helpers.navigateToSite();
+            helpers.addTodo("Item 1");
+            helpers.addTodo("Item 2");
+            helpers.checkElementExists("all").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.checkElementExists("complete").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.checkElementExists("incomplete").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 2);
+            });
+        });
+        testing.it("correctly filters incomplete items", function() {
+            helpers.navigateToSite();
+            helpers.addTodo("Item 1");
+            helpers.addTodo("Item 2");
+            helpers.checkElementExists("all").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.checkElementExists("complete").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.checkElementExists("incomplete").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 2);
+            });
+            helpers.clickButton("incomplete");
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 2);
+            });
+        });
+        testing.it("correctly filters complete items", function() {
+            helpers.navigateToSite();
+            helpers.addTodo("Item 1");
+            helpers.addTodo("Item 2");
+            helpers.checkElementExists("all").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.checkElementExists("complete").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.checkElementExists("incomplete").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 2);
+            });
+            helpers.clickButton("complete");
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 0);
+            });
+        });
+        testing.it("correctly filters multiple complete items", function() {
+            helpers.navigateToSite();
+            helpers.addTodo("Item 0");
+            helpers.addTodo("Item 1");
+            helpers.addTodo("Item 2");
+            helpers.checkElementExists("all").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.checkElementExists("complete").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.checkElementExists("incomplete").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.clickButton("complete2");
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 3);
+            });
+            helpers.clickButton("complete");
+            helpers.getTodoList().then(function(elements) {
+                assert.equal(elements.length, 1);
+            });
+        });
+        testing.it("correctly filters multiple incomplete items", function() {
+            helpers.navigateToSite();
+            helpers.addTodo("Item 0");
+            helpers.addTodo("Item 1");
+            helpers.addTodo("Item 2");
+            helpers.addTodo("Item 3");
+            helpers.checkElementExists("all").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.checkElementExists("complete").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.checkElementExists("incomplete").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.pause(500).then(function() {
+                helpers.clickButton("complete2");
+                helpers.pause(500).then(function() {
+                    helpers.clickButton("complete1");
+                    helpers.getTodoList().then(function(elements) {
+                        assert.equal(elements.length, 4);
+                    });
+                    helpers.clickButton("incomplete");
+                    helpers.getTodoList().then(function(elements) {
+                        assert.equal(elements.length, 2);
+                    });
+                });
+            });
+        });
+        testing.it("correctly filters multiple incomplete items on button press", function() {
+            helpers.navigateToSite();
+            helpers.addTodo("Item 0");
+            helpers.addTodo("Item 1");
+            helpers.addTodo("Item 2");
+            helpers.addTodo("Item 3");
+            helpers.checkElementExists("all").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.checkElementExists("complete").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.checkElementExists("incomplete").then(function(val) {
+                assert.equal(val, true);
+            });
+            helpers.pause(500).then(function() {
+                helpers.clickButton("incomplete");
+                helpers.pause(1000).then(function() {
+                    helpers.clickButton("complete1");
+                    helpers.pause(1000).then(function() {
+                        helpers.getTodoList().then(function(elements) {
+                            assert.equal(elements.length, 3);
+                        });
+                        helpers.clickButton("all");
+                        helpers.getTodoList().then(function(elements) {
+                            assert.equal(elements.length, 4);
+                        });
+                    });
+                });
+            });
+        });
+    });
 });

@@ -388,17 +388,18 @@ testing.describe("end to end", function() {
             helpers.checkElementExists("incomplete").then(function(val) {
                 assert.equal(val, true);
             });
-            helpers.clickButton("incomplete");
             helpers.pause(500).then(function() {
-                helpers.clickButton("complete1");
+                helpers.clickButton("incomplete");
                 helpers.pause(1000).then(function() {
-                    helpers.clickButton("complete2");
-                    helpers.getTodoList().then(function(elements) {
-                        assert.equal(elements.length, 2);
-                    });
-                    helpers.clickButton("all");
-                    helpers.getTodoList().then(function(elements) {
-                        assert.equal(elements.length, 4);
+                    helpers.clickButton("complete1");
+                    helpers.pause(1000).then(function() {
+                        helpers.getTodoList().then(function(elements) {
+                            assert.equal(elements.length, 3);
+                        });
+                        helpers.clickButton("all");
+                        helpers.getTodoList().then(function(elements) {
+                            assert.equal(elements.length, 4);
+                        });
                     });
                 });
             });

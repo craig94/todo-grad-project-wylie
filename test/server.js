@@ -292,4 +292,13 @@ describe("server", function() {
             });
         });
     });
+    describe("server polling", function() {
+        it("responds with status code 200 and latestID = 0", function(done) {
+            request.get(todoListUrl + "/update/", function(error, response, body) {
+                assert.equal(response.statusCode, 200);
+                assert.equal(Number(response.body), 0);
+                done();
+            });
+        });
+    });
 });

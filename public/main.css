@@ -32,10 +32,11 @@ header {
 	font-family:Arial;
 	font-size:17px;
 	font-weight:bold;
-	padding:12px 44px;
+    width:100pt;
+    height:30pt;
 	text-decoration:none;
 	text-shadow:0px 1px 0px #528ecc;
-  margin-left: 50pt;
+    margin-left: 50pt;
   }
 .button:hover {
 	background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #378de5), color-stop(1, #79bbff));
@@ -53,8 +54,7 @@ header {
   }
 }
 
-section,
-h1 {
+section, h1 {
     max-width: 1170px;
     margin-left: auto;
     margin-right: auto;

@@ -110,21 +110,23 @@ function reloadTodoList() {
     }
     todoListPlaceholder.style.display = "block";
     getTodoList(function(todos) {
-        var count = 0;
+        var completeCount = 0;
+        var incompleteCount = 0;
         todoListPlaceholder.style.display = "none";
         todos.forEach(function(todo) {
             if (checkFilter(todo)) {
                 var listItem = getListItem(todo);
                 if (todo.isComplete) {
                     listItem.style.color = "red";
+                    completeCount++;
                 } else {
-                    count++;
+                    incompleteCount++;
                 }
                 todoList.appendChild(listItem);
             }
         });
-        updateCountLabel(count);
-        if (count !== todos.length) {
+        updateCountLabel(incompleteCount);
+        if (completeCount > 0) {
             var deleteCompletedButton = getButton("DELETE COMPLETED", "dc", "dc", deleteCompleted);
             todoList.appendChild(deleteCompletedButton);
         }

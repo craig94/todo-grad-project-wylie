@@ -6,6 +6,7 @@ var error = document.getElementById("error");
 var countLabel = document.getElementById("count-label");
 var filterList = document.getElementById("filter-label");
 var filterFlag = "";
+var all, complete, incomplete;
 
 form.onsubmit = function(event) {
     var title = todoTitle.value;
@@ -149,10 +150,10 @@ function getListItem(todo) {
 
 function appendFilterButtons() {
     if (filterList.childNodes.length === 0) {
-        document.getElementById("filter-text").innerHTML = "Filter By:";
-        var all = getButton("ALL", "all", "all", allButton);
-        var complete = getButton("COMPLETE", "complete", "complete", completeButton);
-        var incomplete = getButton("INCOMPLETE", "incomplete", "incomplete", incompleteButton);
+        document.getElementById("filter-text").innerHTML = "Filter By:\tALL";
+        all = getButton("ALL", "all", "all", allButton);
+        complete = getButton("COMPLETE", "complete", "complete", completeButton);
+        incomplete = getButton("INCOMPLETE", "incomplete", "incomplete", incompleteButton);
 
         filterList.appendChild(all);
         filterList.appendChild(complete);
@@ -180,16 +181,19 @@ function checkFilter(todo) {
 function allButton() {
     filterFlag = "";
     reloadTodoList();
+    document.getElementById("filter-text").innerHTML = "Filter By:\tALL";
 }
 
 function completeButton() {
     filterFlag = "complete";
     reloadTodoList();
+    document.getElementById("filter-text").innerHTML = "Filter By:\tCOMPLETE";
 }
 
 function incompleteButton() {
     filterFlag = "incomplete";
     reloadTodoList();
+    document.getElementById("filter-text").innerHTML = "Filter By:\tINCOMPLETE";
 }
 
 reloadTodoList();

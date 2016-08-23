@@ -30,6 +30,12 @@ var TodoService = (function () {
             .then(function (result) { return result; })
             .catch(this.handleError);
     };
+    TodoService.prototype.deleteTodo = function (id) {
+        var deleteUrl = this.url + "/" + id;
+        return this.http.delete(deleteUrl)
+            .toPromise()
+            .catch(this.handleError);
+    };
     TodoService.prototype.handleError = function (error) {
         return Promise.reject(error.message || error);
     };

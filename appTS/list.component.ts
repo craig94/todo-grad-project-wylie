@@ -28,4 +28,10 @@ export class ListComponent implements OnInit {
             result => this.getTodos()
         );
     }
+
+    deleteTodo(id: string) {
+        this.service.deleteTodo(id).then(
+            () => this.getTodos()
+        );
+    }
 }

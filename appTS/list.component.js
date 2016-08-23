@@ -28,6 +28,10 @@ var ListComponent = (function () {
         var todo = new todo_1.Todo(title);
         this.service.createTodo(todo).then(function (result) { return _this.getTodos(); });
     };
+    ListComponent.prototype.deleteTodo = function (id) {
+        var _this = this;
+        this.service.deleteTodo(id).then(function () { return _this.getTodos(); });
+    };
     ListComponent = __decorate([
         core_1.Component({
             selector: "listDetail",

@@ -27,6 +27,15 @@ export class TodoService {
             .catch(this.handleError);
     }
 
+    deleteTodo(id: string): Promise<any> {
+        let deleteUrl = this.url + "/" + id;
+
+        return this.http.delete(
+            deleteUrl)
+            .toPromise()
+            .catch(this.handleError);
+    }
+
     private handleError(error: any): Promise<any> {
         return Promise.reject(error.message || error);
     }

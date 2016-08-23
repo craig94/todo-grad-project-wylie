@@ -2,6 +2,7 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var _ = require("underscore");
 var fetch = require("whatwg-fetch");
+var path = require('path');
 
 module.exports = function(port, middleware, callback) {
     var app = express();
@@ -9,7 +10,12 @@ module.exports = function(port, middleware, callback) {
     if (middleware) {
         app.use(middleware);
     }
-    app.use(express.static("public"));
+
+    app.use("/lib", express.static(__dirname + "/../node_modules"));
+    app.use("/", express.static(__dirname + "/../public"));
+    app.use("/app", express.static(__dirname +"/../appTS"));
+    app.use("/templates", express.static(__dirname +"/../appTS/templates"));
+
     app.use(bodyParser.json());
 
     var latestId = 0;

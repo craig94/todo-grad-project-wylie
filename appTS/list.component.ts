@@ -40,4 +40,19 @@ export class ListComponent implements OnInit {
             () => this.getTodos()
         );
     }
+
+    deleteComplete() {
+        this.service.deleteComplete().then(
+            () => this.getTodos()
+        );
+    }
+
+    existsCompleteItem(): boolean {
+        for (let i=0;i<this.todos.length;i++){
+            if (this.todos[i].isComplete) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

@@ -3,10 +3,15 @@
     <button class="button" (click)="completeTodo(todo.id)">
         Complete
     </button>
-    <button class="button" (click)='deleteTodo(todo.id)'>
+    <button class="button" (click)="deleteTodo(todo.id)">
         Delete
     </button>
 </li>
+<div *ngIf="existsCompleteItem()">
+    <button class="button" (click)="deleteComplete()">
+        Delete Complete
+    </button>
+</div>
 <form>
     <input #box placeholder="What needs to be done?">
     <input #submit (click)='createTodo(box.value);box.value=""' type="submit" value="Create" class="button">

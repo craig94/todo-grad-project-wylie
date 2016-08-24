@@ -45,6 +45,15 @@ var TodoService = (function () {
             .then()
             .catch(this.handleError);
     };
+    TodoService.prototype.deleteComplete = function () {
+        var deleteUrl = this.url + "/delete";
+        var headers = new http_1.Headers({
+            "Content-Type": "application/json" });
+        return this.http.post(deleteUrl, JSON.stringify({}), { headers: headers })
+            .toPromise()
+            .then()
+            .catch(this.handleError);
+    };
     TodoService.prototype.handleError = function (error) {
         return Promise.reject(error.message || error);
     };

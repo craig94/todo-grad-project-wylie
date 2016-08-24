@@ -48,6 +48,18 @@ export class TodoService {
             .catch(this.handleError);
     }
 
+    deleteComplete(): Promise<any> {
+        let deleteUrl = this.url + "/delete";
+        let headers = new Headers( {
+            "Content-Type": "application/json"});
+
+        return this.http.post(
+            deleteUrl, JSON.stringify({}), {headers: headers})
+            .toPromise()
+            .then()
+            .catch(this.handleError);
+    }
+
     private handleError(error: any): Promise<any> {
         return Promise.reject(error.message || error);
     }

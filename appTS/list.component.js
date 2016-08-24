@@ -36,6 +36,18 @@ var ListComponent = (function () {
         var _this = this;
         this.service.completeTodo(id).then(function () { return _this.getTodos(); });
     };
+    ListComponent.prototype.deleteComplete = function () {
+        var _this = this;
+        this.service.deleteComplete().then(function () { return _this.getTodos(); });
+    };
+    ListComponent.prototype.existsCompleteItem = function () {
+        for (var i = 0; i < this.todos.length; i++) {
+            if (this.todos[i].isComplete) {
+                return true;
+            }
+        }
+        return false;
+    };
     ListComponent = __decorate([
         core_1.Component({
             selector: "listDetail",

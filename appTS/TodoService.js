@@ -36,6 +36,15 @@ var TodoService = (function () {
             .toPromise()
             .catch(this.handleError);
     };
+    TodoService.prototype.completeTodo = function (id) {
+        var completeUrl = this.url + "/" + id;
+        var headers = new http_1.Headers();
+        headers.append("Content-Type", "application/json");
+        return this.http.put(completeUrl, JSON.stringify({ "id": id, "isComplete": true }), { headers: headers })
+            .toPromise()
+            .then()
+            .catch(this.handleError);
+    };
     TodoService.prototype.handleError = function (error) {
         return Promise.reject(error.message || error);
     };

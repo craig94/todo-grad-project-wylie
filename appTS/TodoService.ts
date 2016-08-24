@@ -36,6 +36,18 @@ export class TodoService {
             .catch(this.handleError);
     }
 
+    completeTodo(id: string): Promise<any> {
+        let completeUrl = this.url + "/" + id;
+        let headers = new Headers();
+        headers.append("Content-Type", "application/json");
+
+        return this.http.put(
+            completeUrl, JSON.stringify({"id": id, "isComplete": true}), {headers: headers})
+            .toPromise()
+            .then()
+            .catch(this.handleError);
+    }
+
     private handleError(error: any): Promise<any> {
         return Promise.reject(error.message || error);
     }

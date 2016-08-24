@@ -34,4 +34,10 @@ export class ListComponent implements OnInit {
             () => this.getTodos()
         );
     }
+
+    completeTodo(id: string) {
+        this.service.completeTodo(id).then(
+            () => this.getTodos()
+        );
+    }
 }

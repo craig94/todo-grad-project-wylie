@@ -1,10 +1,14 @@
-<li *ngFor='let todo of todos'>
+<li *ngFor="let todo of todos" [ngClass]="{complete: todo.isComplete, incomplete: !todo.isComplete}">
     {{todo.title}}
+    <button class="button" (click)="completeTodo(todo.id)">
+        Complete
+    </button>
     <button class="button" (click)='deleteTodo(todo.id)'>
         Delete
     </button>
+    {{todo.isComplete}}
 </li>
 <form>
-    <input #box (keyup.enter)='box.value=""' placeholder="What needs to be done?">
+    <input #box placeholder="What needs to be done?">
     <input #submit (click)='createTodo(box.value);box.value=""' type="submit" value="Create" class="button">
 </form>

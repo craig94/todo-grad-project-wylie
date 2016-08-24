@@ -32,6 +32,10 @@ var ListComponent = (function () {
         var _this = this;
         this.service.deleteTodo(id).then(function () { return _this.getTodos(); });
     };
+    ListComponent.prototype.completeTodo = function (id) {
+        var _this = this;
+        this.service.completeTodo(id).then(function () { return _this.getTodos(); });
+    };
     ListComponent = __decorate([
         core_1.Component({
             selector: "listDetail",

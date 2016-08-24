@@ -48,6 +48,15 @@ var ListComponent = (function () {
         }
         return false;
     };
+    ListComponent.prototype.itemsRemaining = function () {
+        var count = 0;
+        for (var i = 0; i < this.todos.length; i++) {
+            if (!(this.todos[i].isComplete)) {
+                count++;
+            }
+        }
+        return count;
+    };
     ListComponent = __decorate([
         core_1.Component({
             selector: "listDetail",

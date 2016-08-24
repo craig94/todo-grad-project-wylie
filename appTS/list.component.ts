@@ -55,4 +55,14 @@ export class ListComponent implements OnInit {
         }
         return false;
     }
+
+    itemsRemaining(): number {
+        let count = 0;
+        for (let i=0;i<this.todos.length;i++) {
+            if (!(this.todos[i].isComplete)) {
+                count++;
+            }
+        }
+        return count;
+    }
 }

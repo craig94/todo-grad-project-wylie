@@ -1,5 +1,5 @@
 <p>Items remaining: {{itemsRemaining()}}</p>
-<li *ngFor="let todo of todos" [ngClass]="{complete: todo.isComplete, incomplete: !todo.isComplete}">
+<li *ngFor="let todo of getTodoList()" [ngClass]="{complete: todo.isComplete, incomplete: !todo.isComplete}">
     {{todo.title}}
     <button class="button" (click)="completeTodo(todo.id)">
         Complete
@@ -8,7 +8,7 @@
         Delete
     </button>
 </li>
-<div *ngIf="existsCompleteItem()">
+<div *ngIf="existsCompleteItem() && (filterStatus!=='incomplete')">
     <button class="button" (click)="deleteComplete()">
         Delete Complete
     </button>
@@ -17,3 +17,14 @@
     <input #box placeholder="What needs to be done?">
     <input #submit (click)='createTodo(box.value);box.value=""' type="submit" value="Create" class="button">
 </form>
+<section *ngIf="todos.length > 0">
+    <button class="button" (click)="all()">
+        All
+    </button>
+    <button class="button" (click)="complete()">
+        Complete
+    </button>
+    <button class="button" (click)="incomplete()">
+        Incomplete
+    </button>
+</section>

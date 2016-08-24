@@ -9,11 +9,23 @@ import { OnInit } from "@angular/core";
 })
 export class ListComponent implements OnInit {
     todos = [];
+    filterStatus: string;
 
     constructor (private service: TodoService) {}
 
     ngOnInit(): void {
         this.getTodos();
+        this.filterStatus = "all";
+    }
+
+    getTodoList(): Todo[] {
+        let todoList = [];
+        for (let i=0;i<this.todos.length;i++) {
+            if (this.showTodo(this.todos[i])) {
+                todoList.push(this.todos[i]);
+            }
+        }
+        return todoList;
     }
 
     getTodos() {
@@ -64,5 +76,24 @@ export class ListComponent implements OnInit {
             }
         }
         return count;
+    }
+
+    showTodo(todo: Todo): boolean {
+        if (this.filterStatus === "all" || (this.filterStatus === "complete" && todo.isComplete) || (this.filterStatus === "incomplete" && !todo.isComplete)) {
+            return true;
+        }
+        return false;
+    }
+
+    all(): void {
+        this.filterStatus = "all";
+    }
+
+    complete(): void {
+        this.filterStatus = "complete";
+    }
+
+    incomplete(): void {
+        this.filterStatus = "incomplete";
     }
 }

@@ -12,6 +12,8 @@ export class ListComponent implements OnInit {
     todos = [];
     filterStatus: string;
     private clientUpdateID: number;
+    pageLoaded = false;
+    errorText: string;
 
     constructor (private service: TodoService) {}
 
@@ -21,6 +23,8 @@ export class ListComponent implements OnInit {
         let timer = Observable.timer(5000,5000);
         timer.subscribe(t => this.timerFunc());
         this.clientUpdateID = 0;
+        this.pageLoaded = true;
+        this.errorText = "";
     }
 
     getTodoList(): Todo[] {
@@ -36,6 +40,8 @@ export class ListComponent implements OnInit {
     getTodos() {
         this.service.getTodos().then(
             result => this.todos = result
+        ).catch(
+            error => this.errorText = "Request failed, error:\t" + error
         );
     }
 
@@ -43,6 +49,8 @@ export class ListComponent implements OnInit {
         let todo = new Todo(title);
         this.service.createTodo(todo).then(
             result => this.getTodos()
+        ).catch(
+            error => this.errorText = "Request failed, error:\t" + error
         );
         this.clientUpdateID++;
     }
@@ -50,13 +58,17 @@ export class ListComponent implements OnInit {
     deleteTodo(id: string) {
         this.service.deleteTodo(id).then(
             () => this.getTodos()
-        );
+        ).catch(
+                error => this.errorText = "Request failed, error:\t" + error
+            );
         this.clientUpdateID++;
     }
 
     completeTodo(id: string) {
         this.service.completeTodo(id).then(
             () => this.getTodos()
+        ).catch(
+            error => this.errorText = "Request failed, error:\t" + error
         );
         this.clientUpdateID++;
     }
@@ -64,6 +76,8 @@ export class ListComponent implements OnInit {
     deleteComplete() {
         this.service.deleteComplete().then(
             () => this.getTodos()
+        ).catch(
+            error => this.errorText = "Request failed, error:\t" + error
         );
         this.clientUpdateID++;
     }

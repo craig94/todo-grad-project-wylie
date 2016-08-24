@@ -16,6 +16,7 @@ var ListComponent = (function () {
     function ListComponent(service) {
         this.service = service;
         this.todos = [];
+        this.pageLoaded = false;
     }
     ListComponent.prototype.ngOnInit = function () {
         var _this = this;
@@ -24,6 +25,8 @@ var ListComponent = (function () {
         var timer = Rx_1.Observable.timer(5000, 5000);
         timer.subscribe(function (t) { return _this.timerFunc(); });
         this.clientUpdateID = 0;
+        this.pageLoaded = true;
+        this.errorText = "";
     };
     ListComponent.prototype.getTodoList = function () {
         var todoList = [];
@@ -36,27 +39,27 @@ var ListComponent = (function () {
     };
     ListComponent.prototype.getTodos = function () {
         var _this = this;
-        this.service.getTodos().then(function (result) { return _this.todos = result; });
+        this.service.getTodos().then(function (result) { return _this.todos = result; }).catch(function (error) { return _this.errorText = "Request failed, error:\t" + error; });
     };
     ListComponent.prototype.createTodo = function (title) {
         var _this = this;
         var todo = new todo_1.Todo(title);
-        this.service.createTodo(todo).then(function (result) { return _this.getTodos(); });
+        this.service.createTodo(todo).then(function (result) { return _this.getTodos(); }).catch(function (error) { return _this.errorText = "Request failed, error:\t" + error; });
         this.clientUpdateID++;
     };
     ListComponent.prototype.deleteTodo = function (id) {
         var _this = this;
-        this.service.deleteTodo(id).then(function () { return _this.getTodos(); });
+        this.service.deleteTodo(id).then(function () { return _this.getTodos(); }).catch(function (error) { return _this.errorText = "Request failed, error:\t" + error; });
         this.clientUpdateID++;
     };
     ListComponent.prototype.completeTodo = function (id) {
         var _this = this;
-        this.service.completeTodo(id).then(function () { return _this.getTodos(); });
+        this.service.completeTodo(id).then(function () { return _this.getTodos(); }).catch(function (error) { return _this.errorText = "Request failed, error:\t" + error; });
         this.clientUpdateID++;
     };
     ListComponent.prototype.deleteComplete = function () {
         var _this = this;
-        this.service.deleteComplete().then(function () { return _this.getTodos(); });
+        this.service.deleteComplete().then(function () { return _this.getTodos(); }).catch(function (error) { return _this.errorText = "Request failed, error:\t" + error; });
         this.clientUpdateID++;
     };
     ListComponent.prototype.existsCompleteItem = function () {

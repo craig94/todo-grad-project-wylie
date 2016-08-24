@@ -60,6 +60,15 @@ export class TodoService {
             .catch(this.handleError);
     }
 
+    checkUpdate(): Promise<any> {
+        let updateUrl = this.url + "/update";
+
+        return this.http.get(updateUrl)
+        .toPromise()
+        .then(response => response.json())
+        .catch(this.handleError);
+    }
+
     private handleError(error: any): Promise<any> {
         return Promise.reject(error.message || error);
     }

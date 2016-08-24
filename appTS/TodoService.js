@@ -54,6 +54,13 @@ var TodoService = (function () {
             .then()
             .catch(this.handleError);
     };
+    TodoService.prototype.checkUpdate = function () {
+        var updateUrl = this.url + "/update";
+        return this.http.get(updateUrl)
+            .toPromise()
+            .then(function (response) { return response.json(); })
+            .catch(this.handleError);
+    };
     TodoService.prototype.handleError = function (error) {
         return Promise.reject(error.message || error);
     };

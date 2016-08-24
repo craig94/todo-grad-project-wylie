@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 import { Todo } from "./todo";
 import { TodoService } from "./TodoService";
 import { OnInit } from "@angular/core";
+import { Observable } from "rxjs/Rx";
 
 @Component({
     selector: "listDetail",
@@ -10,12 +11,16 @@ import { OnInit } from "@angular/core";
 export class ListComponent implements OnInit {
     todos = [];
     filterStatus: string;
+    private clientUpdateID: number;
 
     constructor (private service: TodoService) {}
 
     ngOnInit(): void {
         this.all();
         this.getTodos();
+        let timer = Observable.timer(5000,5000);
+        timer.subscribe(t => this.timerFunc());
+        this.clientUpdateID = 0;
     }
 
     getTodoList(): Todo[] {
@@ -39,24 +44,28 @@ export class ListComponent implements OnInit {
         this.service.createTodo(todo).then(
             result => this.getTodos()
         );
+        this.clientUpdateID++;
     }
 
     deleteTodo(id: string) {
         this.service.deleteTodo(id).then(
             () => this.getTodos()
         );
+        this.clientUpdateID++;
     }
 
     completeTodo(id: string) {
         this.service.completeTodo(id).then(
             () => this.getTodos()
         );
+        this.clientUpdateID++;
     }
 
     deleteComplete() {
         this.service.deleteComplete().then(
             () => this.getTodos()
         );
+        this.clientUpdateID++;
     }
 
     existsCompleteItem(): boolean {
@@ -95,5 +104,16 @@ export class ListComponent implements OnInit {
 
     incomplete(): void {
         this.filterStatus = "Incomplete";
+    }
+
+    timerFunc(): void {
+        this.service.checkUpdate().then(
+            serverUpdateID => {
+                if (Number(serverUpdateID) !== this.clientUpdateID) {
+                    this.clientUpdateID = Number(serverUpdateID);
+                    this.getTodos();
+                }
+            }
+        );
     }
 }

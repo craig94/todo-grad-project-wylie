@@ -18,6 +18,7 @@
     <input #submit (click)='createTodo(box.value);box.value=""' type="submit" value="Create" class="button">
 </form>
 <section *ngIf="todos.length > 0">
+    <h2>Filter by: </h2>
     <button class="button" (click)="all()">
         All
     </button>

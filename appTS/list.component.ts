@@ -14,8 +14,8 @@ export class ListComponent implements OnInit {
     constructor (private service: TodoService) {}
 
     ngOnInit(): void {
+        this.all();
         this.getTodos();
-        this.filterStatus = "all";
     }
 
     getTodoList(): Todo[] {
@@ -79,21 +79,21 @@ export class ListComponent implements OnInit {
     }
 
     showTodo(todo: Todo): boolean {
-        if (this.filterStatus === "all" || (this.filterStatus === "complete" && todo.isComplete) || (this.filterStatus === "incomplete" && !todo.isComplete)) {
+        if (this.filterStatus === "All" || (this.filterStatus === "Complete" && todo.isComplete) || (this.filterStatus === "Incomplete" && !todo.isComplete)) {
             return true;
         }
         return false;
     }
 
     all(): void {
-        this.filterStatus = "all";
+        this.filterStatus = "All";
     }
 
     complete(): void {
-        this.filterStatus = "complete";
+        this.filterStatus = "Complete";
     }
 
     incomplete(): void {
-        this.filterStatus = "incomplete";
+        this.filterStatus = "Incomplete";
     }
 }

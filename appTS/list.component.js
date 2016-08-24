@@ -17,8 +17,8 @@ var ListComponent = (function () {
         this.todos = [];
     }
     ListComponent.prototype.ngOnInit = function () {
+        this.all();
         this.getTodos();
-        this.filterStatus = "all";
     };
     ListComponent.prototype.getTodoList = function () {
         var todoList = [];
@@ -68,19 +68,19 @@ var ListComponent = (function () {
         return count;
     };
     ListComponent.prototype.showTodo = function (todo) {
-        if (this.filterStatus === "all" || (this.filterStatus === "complete" && todo.isComplete) || (this.filterStatus === "incomplete" && !todo.isComplete)) {
+        if (this.filterStatus === "All" || (this.filterStatus === "Complete" && todo.isComplete) || (this.filterStatus === "Incomplete" && !todo.isComplete)) {
             return true;
         }
         return false;
     };
     ListComponent.prototype.all = function () {
-        this.filterStatus = "all";
+        this.filterStatus = "All";
     };
     ListComponent.prototype.complete = function () {
-        this.filterStatus = "complete";
+        this.filterStatus = "Complete";
     };
     ListComponent.prototype.incomplete = function () {
-        this.filterStatus = "incomplete";
+        this.filterStatus = "Incomplete";
     };
     ListComponent = __decorate([
         core_1.Component({

@@ -1,5 +1,5 @@
-<p>Items remaining: {{itemsRemaining()}}</p>
-<li *ngFor="let todo of getTodoList()" [ngClass]="{complete: todo.isComplete, incomplete: !todo.isComplete}">
+<p id="count-label">Items remaining: {{itemsRemaining()}}</p>
+<li id="todo-list" *ngFor="let todo of getTodoList()" [ngClass]="{complete: todo.isComplete, incomplete: !todo.isComplete}">
     {{todo.title}}
     <button class="button" (click)="completeTodo(todo.id)">
         Complete
@@ -8,17 +8,17 @@
         Delete
     </button>
 </li>
-<div *ngIf="existsCompleteItem() && (filterStatus!=='incomplete')">
+<div *ngIf="existsCompleteItem() && (filterStatus!=='Incomplete')">
     <button class="button" (click)="deleteComplete()">
         Delete Complete
     </button>
 </div>
 <form>
-    <input #box placeholder="What needs to be done?">
-    <input #submit (click)='createTodo(box.value);box.value=""' type="submit" value="Create" class="button">
+    <input #box id="new-todo" placeholder="What needs to be done?">
+    <input #submit id="submit-todo" (click)='createTodo(box.value);box.value=""' type="submit" value="Create" class="button">
 </form>
-<section *ngIf="todos.length > 0">
-    <h2>Filter by: </h2>
+<section id="filter-label" *ngIf="todos.length > 0">
+    <h2 id="filter-text">Filter by: {{filterStatus}}</h2>
     <button class="button" (click)="all()">
         All
     </button>

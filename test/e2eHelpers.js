@@ -52,7 +52,9 @@ module.exports.reportCoverage = function() {
 
 module.exports.navigateToSite = function() {
     driver.get(baseUrl);
-    driver.sleep(3000);
+
+    driver.wait(webdriver.until.elementLocated(webdriver.By.id("new-todo")));
+    //driver.sleep(3000);
 };
 
 module.exports.getTitleText = function() {

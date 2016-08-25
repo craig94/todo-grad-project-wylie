@@ -1,27 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <title>TODO List</title>
-        <link href="main.css" rel="stylesheet" type="text/css">
-        <link rel="icon" type="image/ico" href="favicon.ico">
-    </head>
-    <body>
-        <header>
-            <h1>TODO List</h1>
-        </header>
-        <div id="count-label"></div>
-        <section>
-            <h2 id="todo-list-placeholder">Loading...</h2>
-            <ul id="todo-list"></ul>
-            <form id="todo-form">
-                <input id="new-todo" placeholder="What needs to be done?" autofocus>
-                <input id="submit-todo" type="submit" value="Create" class="button">
-            </form>
-            <div id="error"></div>
-        </section>
-        <p id="filter-text"></p>
-        <div id="filter-label"></div>
-        <script type="text/javascript" src="main.js"></script>
-    </body>
+<html>
+  <head>
+    <title>Angular2 TODO List</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/templates/main.css">
+
+    <!-- 1. Load libraries -->
+    <!-- IE required polyfill
+    <script src="/lib/core-js/client/shim.min.js"></script>
+
+    <script src="/lib/zone.js/dist/zone.js"></script>
+    <script src="/lib/reflect-metadata/Reflect.js"></script>
+
+    <script src="/lib/rxjs/bundles/Rx.umd.js"></script>
+    <script src="/lib/@angular/core/bundles/core.umd.js"></script>
+    <script src="/lib/@angular/common/bundles/common.umd.js"></script>
+    <script src="/lib/@angular/compiler/bundles/compiler.umd.js"></script>
+    <script src="/lib/@angular/platform-browser/bundles/platform-browser.umd.js"></script>
+    <script src="/lib/@angular/platform-browser-dynamic/bundles/platform-browser-dynamic.umd.js"></script>
+    <script src="/lib/@angular/forms/bundles/forms.umd.min.js"></script>
+    <script src="node_modules/core-js/client/shim.min.js"></script>
+
+    <script src="node_modules/zone.js/dist/zone.js"></script>
+    <script src="node_modules/reflect-metadata/Reflect.js"></script>
+    <script src="node_modules/systemjs/dist/system.src.js"></script>
+
+     2. Load our 'modules'
+    <script src='app/app.component.js'></script>
+    <script src='app/app.module.js'></script>
+    <script src='app/main.js'></script>
+
+  </head>
+
+   3. Display the application -->
+    <script src="lib/core-js/client/shim.min.js"></script>
+    <script src="lib/zone.js/dist/zone.js"></script>
+    <script src="lib/reflect-metadata/Reflect.js"></script>
+    <script src="lib/systemjs/dist/system.src.js"></script>
+    <script src="systemjs.config.js"></script>
+    <script>
+        System.import('app').catch(function(err){ console.error(err); });
+    </script>
+
+  <body>
+      <my-app>
+          <h2>Loading...</h2>
+      </my-app>
+  </body>
+
 </html>

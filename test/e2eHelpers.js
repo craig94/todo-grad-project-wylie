@@ -36,11 +36,11 @@ module.exports.teardownServer = function(done) {
 };
 
 module.exports.teardownDriver = function() {
-    if (gatheringCoverage) {
+    /*if (gatheringCoverage) {
         driver.executeScript("return __coverage__;").then(function (coverage) {
             collector.add(coverage);
         });
-    }
+    }*/
     driver.quit();
 };
 
@@ -52,6 +52,9 @@ module.exports.reportCoverage = function() {
 
 module.exports.navigateToSite = function() {
     driver.get(baseUrl);
+
+    driver.wait(webdriver.until.elementLocated(webdriver.By.id("new-todo")));
+    //driver.sleep(3000);
 };
 
 module.exports.getTitleText = function() {
@@ -64,7 +67,7 @@ module.exports.getInputText = function() {
 
 module.exports.getErrorText = function() {
     var errorElement = driver.findElement(webdriver.By.id("error"));
-    driver.wait(webdriver.until.elementTextContains(errorElement, "Failed"), 5000);
+    driver.wait(webdriver.until.elementTextContains(errorElement, "failed"), 5000);
     return errorElement.getText();
 };
 

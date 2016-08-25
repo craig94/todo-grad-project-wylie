@@ -9,7 +9,7 @@ testing.describe("end to end", function() {
     testing.afterEach(helpers.teardownServer);
     testing.after(function() {
         helpers.teardownDriver();
-        helpers.reportCoverage();
+        //helpers.reportCoverage();
     });
 
     testing.describe("on page load", function() {
@@ -29,7 +29,7 @@ testing.describe("end to end", function() {
             helpers.setupErrorRoute("get", "/api/todo");
             helpers.navigateToSite();
             helpers.getErrorText().then(function(text) {
-                assert.equal(text, "Failed to get list. Server returned 500 - Internal Server Error");
+                assert.equal(text.substring(0, 14), "Request failed");
             });
         });
     });
@@ -53,7 +53,7 @@ testing.describe("end to end", function() {
             helpers.navigateToSite();
             helpers.addTodo("New todo item");
             helpers.getErrorText().then(function(text) {
-                assert.equal(text, "Failed to create item. Server returned 500 - Internal Server Error");
+                assert.equal(text.substring(0, 14), "Request failed");
             });
         });
         testing.it("can be done multiple times", function() {
@@ -105,7 +105,7 @@ testing.describe("end to end", function() {
             });
             helpers.deleteItem("0");
             helpers.getErrorText().then(function(text) {
-                assert.equal(text, "Failed to delete item. Server returned 500 - Internal Server Error");
+                assert.equal(text.substring(0, 14), "Request failed");
             });
         });
     });
@@ -137,7 +137,7 @@ testing.describe("end to end", function() {
                 assert.equal(elements.length, 1);
             });
             helpers.getElementText("count-label").then(function(text) {
-                var count = Number(text.split(" ")[0]);
+                var count = Number(text.split(" ")[2]);
                 assert.equal(count, 1);
             });
         });
@@ -149,7 +149,7 @@ testing.describe("end to end", function() {
                 assert.equal(elements.length, 2);
             });
             helpers.getElementText("count-label").then(function(text) {
-                var count = Number(text.split(" ")[0]);
+                var count = Number(text.split(" ")[2]);
                 assert.equal(count, 2);
             });
         });
@@ -163,7 +163,7 @@ testing.describe("end to end", function() {
             });
             helpers.completeItem("1");
             helpers.getElementText("count-label").then(function(text) {
-                var count = Number(text.split(" ")[0]);
+                var count = Number(text.split(" ")[2]);
                 assert.equal(count, 2);
             });
         });
@@ -177,17 +177,17 @@ testing.describe("end to end", function() {
             });
             helpers.completeItem("1");
             helpers.getElementText("count-label").then(function(text) {
-                var count = Number(text.split(" ")[0]);
+                var count = Number(text.split(" ")[2]);
                 assert.equal(count, 2);
             });
             helpers.deleteItem("0");
             helpers.getElementText("count-label").then(function(text) {
-                var count = Number(text.split(" ")[0]);
+                var count = Number(text.split(" ")[2]);
                 assert.equal(count, 1);
             });
             helpers.deleteItem("2");
             helpers.getElementText("count-label").then(function(text) {
-                var count = Number(text.split(" ")[0]);
+                var count = Number(text.split(" ")[2]);
                 assert.equal(count, 0);
             });
         });

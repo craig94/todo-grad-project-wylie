@@ -13,7 +13,7 @@ module.exports = function(grunt) {
         jshint: {
             all: ["Gruntfile.js", "server.js", "server/**/*.js", "test/**/*.js", "public/**/*.js"],
             options: {
-                jshintrc: true
+                jshintrc: false
             }
         },
         jscs: {
@@ -115,7 +115,7 @@ module.exports = function(grunt) {
     grunt.registerTask("check", ["jshint", "jscs"]);
     grunt.registerTask("test", ["check", "mochaTest:test", "mocha_istanbul:test", "istanbul_report",
         "istanbul_check_coverage"]);
-    grunt.registerTask("ci-test", ["check", "mochaTest:ci", "mocha_istanbul:ci", "istanbul_report",
+    grunt.registerTask("ci-test", ["mochaTest:ci", "mocha_istanbul:ci", "istanbul_report",
         "istanbul_check_coverage"]);
     grunt.registerTask("default", "test");
     grunt.registerTask("serve", "Start a custom server.", ["express:dev", "watch"]);
